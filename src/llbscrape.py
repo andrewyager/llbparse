@@ -15,11 +15,11 @@ with open('output/scrape.csv', "r") as csvfile:
 	for row in csvread:
 		images[row[0]]=row[1]
 
-file = open("output/scrape.csv", "w")
+file = open("output/scrape.csv", "a")
 
 def parseproduct(url):
 	print('parsing url {}'.format(url))
-	urlre = r'barcode=(\d+)'
+	urlre = r'barcode=(\d+|CIR\d+)'
 	matches = re.search(urlre, url)
 	barcode = matches[1]
 	if barcode in images:
