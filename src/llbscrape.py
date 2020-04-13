@@ -16,11 +16,15 @@ with open('output/scrape.csv', "r") as csvfile:
 		images[row[0]]=row[1]
 
 file = open("output/scrape.csv", "a")
+errorfile = open("output/errors", "a")
 
 def parseproduct(url):
 	print('parsing url {}'.format(url))
 	urlre = r'barcode=(\d+|CIR\d+)'
 	matches = re.search(urlre, url)
+	if matches is None:
+		errorfile.write(str(url) + "\n")
+		return False
 	barcode = matches[1]
 	if barcode in images:
 		return False
@@ -74,3 +78,4 @@ for link in links:
 		pass
 
 file.close()
+errorfile.close()
