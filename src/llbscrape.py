@@ -24,6 +24,7 @@ def parseproduct(url):
 	matches = re.search(urlre, url)
 	if matches is None:
 		errorfile.write(str(url) + "\n")
+		errorfile.flush()
 		return False
 	barcode = matches[1]
 	if barcode in images:
@@ -51,7 +52,10 @@ def parsecategory(url):
 	if url in categorylist:
 		return True
 	categorylist.append(url)
-	response = requests.get(url+"?per_page_size=200")
+	if url.find('?') != -1:
+		response = requests.get(url+"&per_page_size=200")
+	else:
+		response = requests.get(url+"?per_page_size=200")
 	page_soup = BeautifulSoup(response.text, "html.parser")
 	link_tags = page_soup.findAll('a')
 	for link_tag in link_tags:
