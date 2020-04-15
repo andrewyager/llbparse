@@ -10,13 +10,24 @@ from bs4 import BeautifulSoup
 images = {}
 categorylist = []
 
-with open('output/scrape.csv', "r") as csvfile:
-	csvread = csv.reader(csvfile, delimiter=',')
-	for row in csvread:
-		images[row[0]]=row[1]
+if True:
+	prefix = "wbs"
+	base_url = 'https://wanderingbookseller.circlesoft.net/'
+if False:
+	prefix = ""
+	base_url = 'https://www.littlelostbookshop.com.au/'
 
-file = open("output/scrape.csv", "a")
-errorfile = open("output/errors", "a")
+try:
+	with open('output/{}scrape.csv'.format(prefix), "r") as csvfile:
+		csvread = csv.reader(csvfile, delimiter=',')
+		for row in csvread:
+			images[row[0]]=row[1]
+except:
+	pass
+
+
+file = open("output/{}scrape.csv".format(prefix), "a")
+errorfile = open("output/{}errors".format(prefix), "a")
 
 def parseproduct(url):
 	print('parsing url {}'.format(url))
@@ -67,7 +78,6 @@ def parsecategory(url):
 		except KeyError:
 			pass
 
-base_url = 'https://www.littlelostbookshop.com.au/'
 response = requests.get(base_url)
 soup = BeautifulSoup(response.text, "html.parser")
 
