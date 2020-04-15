@@ -31,7 +31,7 @@ errorfile = open("output/{}errors".format(prefix), "a")
 
 def parseproduct(url):
 	print('parsing url {}'.format(url))
-	urlre = r'barcode=(\d+|CIR\d+)'
+	urlre = r'barcode=(.+?)(&.+)?$'
 	matches = re.search(urlre, url)
 	if matches is None:
 		errorfile.write(str(url) + "\n")
